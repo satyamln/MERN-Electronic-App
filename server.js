@@ -7,6 +7,7 @@ import authRoutes from "./routes/authRoute.js"
 import categoryRoutes from "./routes/categoryRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
 import cors from "cors"
+import path from "path"
 
 //config dotenv
 dotenv.config()
@@ -28,9 +29,15 @@ app.use("/api/v1/category", categoryRoutes)
 app.use("/api/v1/product", productRoutes)
 
 //rest api
-app.get("/", (req,res)=>{
-    res.send("<h2>Welcome to ecommerce app</h2>")
-});
+// app.get("/", (req,res)=>{
+//     res.send("<h2>Welcome to ecommerce app</h2>")
+// });
+
+//use the client
+app.use(express.static(path.join(path.resolve(),"/client/dist")))
+
+//Render client for any path
+app.get("*", (req,res)=>res.sendFile(path.join(path.resolve(),"/client/dist/index.html")))
 
 //PORT
 const PORT = process.env.PORT || 8080;
